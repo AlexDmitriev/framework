@@ -39,7 +39,8 @@ abstract class Compiler {
 	 */
 	public function getCompiledPath($path)
 	{
-		return $this->cachePath.'/'.md5($path);
+		return $this->cachePath.'/'.md5(substr($path, strpos($path, "..") + 1));
+//		return $this->cachePath.'/'.md5($path);
 	}
 
 	/**
@@ -62,7 +63,7 @@ abstract class Compiler {
 
 		$lastModified = $this->files->lastModified($path);
 
-		return $lastModified >= $this->files->lastModified($compiled);
+		return $lastModified > $this->files->lastModified($compiled);
 	}
 
 }
